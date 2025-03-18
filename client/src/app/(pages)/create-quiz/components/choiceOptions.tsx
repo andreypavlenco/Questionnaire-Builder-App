@@ -24,7 +24,7 @@ export default function ChoiceOptions({ index }: { index: number }) {
             type="button"
             className="bg-red-500 text-white"
             onClick={() => {
-              const newChoices = choices.filter((_:string, i:number) => i !== choiceIndex);
+              const newChoices = choices.filter((_: string, i: number) => i !== choiceIndex);
               setValue(`questions.${index}.choices`, newChoices);
             }}
           >

@@ -1,11 +1,15 @@
 "use client";
 
-import {  FormField, FormItem, FormControl, FormMessage } from "@/shared/ui/form";
+import { FormField, FormItem, FormControl, FormMessage } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
 import { useFormContext } from "react-hook-form";
 
 export default function ModuleForm() {
-  const { control, setValue, formState: { errors } } = useFormContext();
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
 
   return (
     <div>

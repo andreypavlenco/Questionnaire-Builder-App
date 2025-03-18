@@ -1,13 +1,31 @@
 import { FormField, FormItem, FormControl, FormMessage } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/shared/ui/select";
 import { Button } from "@/shared/ui/button";
 import { Trash } from "lucide-react";
 import { useFormContext } from "react-hook-form";
 import ChoiceOptions from "./choiceOptions";
 
-export default function QuestionItem({ index, remove }: { index: number; remove: (index: number) => void }) {
-  const { control, setValue, watch, formState: { errors } } = useFormContext();
+export default function QuestionItem({
+  index,
+  remove,
+}: {
+  index: number;
+  remove: (index: number) => void;
+}) {
+  const {
+    control,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useFormContext();
   const questionType = watch(`questions.${index}.type`);
 
   return (

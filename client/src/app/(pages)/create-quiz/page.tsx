@@ -4,7 +4,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { setModule, setDescription, resetModule } from "@/store/feature/moduleSlice";
-import {resetQuestions, setQuestions} from "@/store/feature/questionSlice"
+import { resetQuestions, setQuestions } from "@/store/feature/questionSlice";
 import { Button } from "@/shared/ui/button";
 import ModuleForm from "./components/moduleForm";
 import QuestionList from "./components/questionList";
@@ -28,7 +28,8 @@ export default function QuizCreate() {
   const isFormValid = () => {
     return (
       watch("questions").every(
-        (q) => q.text.trim() && (q.type !== "Choice" || (q.choices && q.choices.every((c) => c.trim())))
+        (q) =>
+          q.text.trim() && (q.type !== "Choice" || (q.choices && q.choices.every((c) => c.trim()))),
       ) &&
       watch("module").trim() &&
       watch("description").trim()
@@ -40,28 +41,29 @@ export default function QuizCreate() {
       console.log("❌ Заполните все поля!");
       return;
     }
-  
+
     console.log("📌 Сохранение модуля и вопросов:", data);
-  
+
     dispatch(setModule(data.module));
     dispatch(setDescription(data.description));
-  
-    dispatch(setQuestions(
-      data.questions.map((q: any) => ({
-        ...q,
-        choices: q.choices.filter((choice: string) => choice.trim() !== ""),
-      }))
-    ));
-  
-    dispatch(resetModule());
-    dispatch(resetQuestions()); 
-  
-  reset({
-    module: "",
-    description: "",
-    questions: [],
-  });
 
+    dispatch(
+      setQuestions(
+        data.questions.map((q: any) => ({
+          ...q,
+          choices: q.choices.filter((choice: string) => choice.trim() !== ""),
+        })),
+      ),
+    );
+
+    dispatch(resetModule());
+    dispatch(resetQuestions());
+
+    reset({
+      module: "",
+      description: "",
+      questions: [],
+    });
   };
 
   return (

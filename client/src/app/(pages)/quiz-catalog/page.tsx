@@ -48,8 +48,8 @@ export const quizMap = [
 export default function QuizCatalog() {
   return (
     <div className="m-3">
-    <h1 className="text-3xl mb-6">Quiz Catalog</h1>
-    <CardCatalog card={quizMap}/> 
-  </div>
+      <h1 className="text-3xl mb-6">Quiz Catalog</h1>
+      <CardCatalog card={quizMap} />
+    </div>
   );
 }
