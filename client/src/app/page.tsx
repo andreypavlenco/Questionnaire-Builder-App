@@ -1,9 +1,9 @@
-import { Button } from "@/shared/ui/button";
+import QuizCatalog from "./(pages)/quiz/catalog/page";
 
 export default function Home() {
   return (
-    <div>
-      <Button>Click</Button>
-    </div>
+    <>
+      <QuizCatalog />
+    </>
   );
 }

@@ -9,14 +9,14 @@ datasource db {
 }
 
 
-model Survey {
+  model Quiz {
   id             String    @id @default(uuid())
   title          String
   description    String?
-  questionCount  Int       @default(0)
-  passCount      Int       @default(0) 
-  questions      Question[]
-  surveySessions SurveySession[]
+  passCount      Int?       @default(0) 
+  questionCount  Int?       @default(0) 
+  questions      Question[] 
+  quizSessions   QuizSession[]  
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }
@@ -25,9 +25,9 @@ model Question {
   id         String    @id @default(uuid())
   text       String
   type       QuestionType
-  order      Int
-  surveyId   String
-  survey     Survey    @relation(fields: [surveyId], references: [id])
+  order      Int?
+  quizId     String
+  quiz       Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade) 
   options    AnswerOption[] 
   userAnswers UserAnswer[]
   createdAt  DateTime  @default(now())
@@ -36,37 +36,36 @@ model Question {
 
 enum QuestionType {
   TEXT
-  SINGLE_CHOICE
-  MULTIPLE_CHOICE
-  IMAGE
+  CHOICE
 }
 
 model AnswerOption {
   id         String    @id @default(uuid())
   text       String
   questionId String
-  question   Question  @relation(fields: [questionId], references: [id])
+  question   Question  @relation(fields: [questionId], references: [id], onDelete: Cascade) 
   userAnswers UserAnswer[]
 }
 
-model SurveySession {
+model QuizSession {
   id         String    @id @default(uuid())
-  surveyId   String
-  survey     Survey    @relation(fields: [surveyId], references: [id])
+  quizId     String
+  quiz       Quiz    @relation(fields: [quizId], references: [id], onDelete: Cascade) 
   completed  Boolean   @default(false)
   timeTaken  Int?     
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
-  userAnswers UserAnswer[]
+  userAnswers UserAnswer[] 
 }
 
 model UserAnswer {
   id             String    @id @default(uuid())
-  surveySessionId String
-  surveySession  SurveySession @relation(fields: [surveySessionId], references: [id])
+  quizSessionId  String
+  quizSession    QuizSession @relation(fields: [quizSessionId], references: [id], onDelete: Cascade)
   questionId     String
-  question       Question  @relation(fields: [questionId], references: [id])
+  question       Question  @relation(fields: [questionId], references: [id], onDelete: Cascade)
   answerText     String? 
-  selectedOptions AnswerOption[]
+  selectedOptions AnswerOption[] 
   createdAt      DateTime  @default(now())
 }
+
