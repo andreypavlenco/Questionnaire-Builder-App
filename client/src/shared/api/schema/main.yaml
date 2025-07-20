@@ -1,0 +1,164 @@
+openapi: 3.0.0
+info:
+  title: Questionnaire Builder API
+  description: API for creating and managing interactive questionnaires
+  version: 1.0.0
+
+paths:
+  /questionnaires:
+    get:
+      summary: Get all questionnaires
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuestionnaireList'
+
+    post:
+      summary: Create a new questionnaire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Questionnaire'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+
+  /questionnaires/{questionnaireId}:
+    get:
+      summary: Get questionnaire by ID
+      parameters:
+        - name: questionnaireId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Questionnaire'
+
+    delete:
+      summary: Delete questionnaire
+      parameters:
+        - name: questionnaireId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Deleted
+
+components:
+  schemas:
+    Questionnaire:
+      type: object
+      required:
+        - id
+        - title
+        - description
+        - questions
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        completionsCount:
+          type: integer
+
+    Question:
+      type: object
+      required:
+        - id
+        - type
+        - text
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [text, single-choice, multiple-choice, image]
+        text:
+          type: string
+        options:
+          type: array
+          items:
+            type: string
+          nullable: true
+
+    Completion:
+      type: object
+      required:
+        - id
+        - questionnaireId
+        - answers
+        - startedAt
+        - completedAt
+      properties:
+        id:
+          type: string
+        questionnaireId:
+          type: string
+        answers:
+          type: array
+          items:
+            $ref: '#/components/schemas/Answer'
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+
+    Answer:
+      type: object
+      required:
+        - questionId
+        - value
+      properties:
+        questionId:
+          type: string
+        value:
+          type: string
+
+    QuestionnaireList:
+      type: object
+      required:
+        - list
+        - total
+        - totalPages
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/Questionnaire'
+        total:
+          type: integer
+        totalPages:
+          type: integer
