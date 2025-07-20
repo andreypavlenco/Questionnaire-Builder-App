@@ -1,0 +1,100 @@
+schemas:
+  Questionnaire:
+    type: object
+    required:
+      - id
+      - title
+      - description
+      - questions
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+      questions:
+        type: array
+        items:
+          $ref: '#/schemas/Question'
+      createdAt:
+        type: string
+        format: date-time
+      updatedAt:
+        type: string
+        format: date-time
+      completionsCount:
+        type: integer
+
+  Question:
+    type: object
+    required:
+      - id
+      - type
+      - text
+    properties:
+      id:
+        type: string
+      type:
+        type: string
+        enum: [text, single-choice, multiple-choice, image]
+      text:
+        type: string
+      options:
+        type: array
+        items:
+          type: string
+        nullable: true
+
+  Completion:
+    type: object
+    required:
+      - id
+      - questionnaireId
+      - answers
+      - startedAt
+      - completedAt
+    properties:
+      id:
+        type: string
+      questionnaireId:
+        type: string
+      answers:
+        type: array
+        items:
+          $ref: '#/schemas/Answer'
+      startedAt:
+        type: string
+        format: date-time
+      completedAt:
+        type: string
+        format: date-time
+
+  Answer:
+    type: object
+    required:
+      - questionId
+      - value
+    properties:
+      questionId:
+        type: string
+      value:
+        type: string
+
+  QuestionnaireList:
+    type: object
+    required:
+      - list
+      - total
+      - totalPages
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/schemas/Questionnaire'
+      total:
+        type: integer
+      totalPages:
+        type: integer
