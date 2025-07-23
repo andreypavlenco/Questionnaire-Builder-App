@@ -3,28 +3,28 @@ import {
   NotFoundException,
   InternalServerErrorException,
   BadRequestException,
-} from '@nestjs/common';
-import { Question, QuestionType } from '@prisma/client';
-import { PrismaService } from 'prisma/prisma.service';
-import { CreateQuestionDto, UpdateQuestionDto } from 'src/shared/dto';
-import { validateQuestionType } from 'src/shared/utils/validateQuestionType';
+} from "@nestjs/common";
+import { Question, QuestionType } from "@prisma/client";
+import { PrismaService } from "../../../prisma/prisma.service";
+import { CreateQuestionDto } from "./dto/question-create.dto";
+
 
 @Injectable()
 export class QuestionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(question: CreateQuestionDto[]): Promise<{ count: number }> {
-    try {
-      return await this.prisma.question.createMany({
-        data: question.map((qDto) => ({
-          ...qDto,
-        })),
-      });
-    } catch (error) {
-      throw new BadRequestException(
-        'Error creating questions. Please check your data.',
-      );
-    }
+  // async create(question: CreateQuestionDto[]): Promise<{ count: number }> {
+  //   try {
+  //     return await this.prisma.question.createMany({
+  //       data: question.map((qDto) => ({
+  //         ...qDto,
+  //       })),
+  //     });
+  //   } catch (error) {
+  //     throw new BadRequestException(
+  //       "Error creating questions. Please check your data.",
+  //     );
+  //   }
   }
 
   // async update(id: string, data: UpdateQuestionDto): Promise<Question> {
@@ -52,4 +52,4 @@ export class QuestionService {
 
   //   return question;
   // }
-}
+
